@@ -76,8 +76,7 @@ class PhotoUtilityApp(ctk.CTk):
             self.top_frame, text = "Поиск\nМетаданных", cursor = "hand2",
             corner_radius = 10, image = self.icons["metadata"],
             width = 50, height = 50, fg_color = "transparent",
-            hover_color = "gray", compound = "top",
-            command = self.show_metadata
+            hover_color = "gray", compound = "top"
         )
         self.metadata_btn.place(x = 185, y = 3)
 
