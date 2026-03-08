@@ -5,6 +5,7 @@ from views.duplicate_view import DuplicateView
 from views.rename_view import RenameView
 from views.metadata_view import MetadataView
 from utils import load_icons
+from utils import resource_path
 
 class PhotoUtilityApp(ctk.CTk):
 
@@ -28,7 +29,7 @@ class PhotoUtilityApp(ctk.CTk):
         self.title("GUI v 0.3")
         self.geometry("800x700")
         self.resizable(False, False)
-        self.iconbitmap("images/icon.ico")
+        self.iconbitmap(resource_path("images/icon.ico"))
         self.icons = load_icons()
         self.duplicate_results = None
         self.setup_ui()
@@ -76,8 +77,7 @@ class PhotoUtilityApp(ctk.CTk):
             self.top_frame, text = "Поиск\nМетаданных", cursor = "hand2",
             corner_radius = 10, image = self.icons["metadata"],
             width = 50, height = 50, fg_color = "transparent",
-            hover_color = "gray", compound = "top",
-            command = self.show_metadata
+            hover_color = "gray", compound = "top"
         )
         self.metadata_btn.place(x = 185, y = 3)
 
