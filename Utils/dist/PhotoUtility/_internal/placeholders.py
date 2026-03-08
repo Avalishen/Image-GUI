@@ -1,6 +1,0 @@
-placeholder_text_1 = "Папка с фотографиями"
-placeholder_text_2 = "Папка для дубликатов"
-placeholder_text_3 = "Введите путь к Папке с Файлами"
-placeholder_text_4 = "Введите своё название Файла"
-placeholder_text_5 = "Введите путь к Фотографии"
-placeholder_text_6 = "Введите путь для Перезаписи"
