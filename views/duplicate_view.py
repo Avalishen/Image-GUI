@@ -5,10 +5,11 @@ from tkinter import filedialog
 from PIL import Image
 from placeholders import placeholder_text_1, placeholder_text_2
 from core.duplicate_finder import find_image_duplicates
+from utils import resource_path
 
 duplicate_image = ctk.CTkImage(
-    light_image = Image.open("images/folder-dark.png"),
-    dark_image = Image.open("images/folder-light.png"),
+    light_image = Image.open(resource_path("images/folder-dark.png")),
+    dark_image = Image.open(resource_path("images/folder-light.png")),
     size = (24, 20)
 )
 
