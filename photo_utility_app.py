@@ -77,7 +77,8 @@ class PhotoUtilityApp(ctk.CTk):
             self.top_frame, text = "Поиск\nМетаданных", cursor = "hand2",
             corner_radius = 10, image = self.icons["metadata"],
             width = 50, height = 50, fg_color = "transparent",
-            hover_color = "gray", compound = "top"
+            hover_color = "gray", compound = "top",
+            command = self.show_metadata
         )
         self.metadata_btn.place(x = 185, y = 3)
 
@@ -133,6 +134,8 @@ class PhotoUtilityApp(ctk.CTk):
             self.duplicate_frame.browse_dest_btn.configure(text_color = text_color)
             self.duplicate_frame.search_btn.configure(text_color = text_color)
             self.duplicate_frame.move_btn.configure(text_color = text_color)
+            self.rename_frame.browse_source_btn.configure(text_color = text_color)
+            self.rename_frame.search_btn.configure(text_color = text_color)
 
     def reload_icons(self):
         """Смена иконок при смене темы экрана"""
