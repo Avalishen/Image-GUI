@@ -4,7 +4,7 @@ import os
 from tkinter import filedialog
 from PIL import Image
 from placeholders import placeholder_text_1, placeholder_text_2
-from core.duplicate_finder import find_image_duplicates
+from core.duplicate_finder import find_image_duplicates, move_duplicates_to_folder
 from utils import resource_path
 
 duplicate_image = ctk.CTkImage(
@@ -39,18 +39,18 @@ class DuplicateView(ctk.CTkFrame):
         self.browse_dest_btn.place(x = 270, y = 60)
 
         """Поле в котором показывается результат"""
-        self.result_textbox = ctk.CTkTextbox(self, width = 740, height = 300)
+        self.result_textbox = ctk.CTkTextbox(self, width = 740, height = 415, corner_radius = 10)
         self.result_textbox.place(x = 20, y = 100)
         self.result_textbox.insert("0.0", "Результат поиска появится здесь...")
         self.result_textbox.configure(state = "disabled") # только для чтения
 
         """Кнопка для начала поиска дубликатов"""
         self.search_btn = ctk.CTkButton(self, text = "Найти дубликаты", corner_radius = 10, command = self.on_duplicate_search)
-        self.search_btn.place(x=20, y=420)
+        self.search_btn.place(x=20, y=530)
 
         """Кнопка для перемещения дубликатов"""
         self.move_btn = ctk.CTkButton(self, text = "Переместить дубликаты", corner_radius = 10, command = self.on_duplicate_move, state="disabled")
-        self.move_btn.place(x=180, y=420)
+        self.move_btn.place(x=180, y=530)
 
     def choose_source(self):
         folder = filedialog.askdirectory(title = "Папка с фото")
@@ -112,7 +112,6 @@ class DuplicateView(ctk.CTkFrame):
         if not dest_folder:
             return
 
-        from core.duplicate_finder import move_duplicates_to_folder
         try:
             os.makedirs(dest_folder, exist_ok=True)
             moved = move_duplicates_to_folder(self.duplicate_results, dest_folder)

@@ -32,14 +32,14 @@ class RenameView(ctk.CTkFrame):
         self.browse_source_btn.place(x = 270, y = 20)
 
         """Поле в котором показывается результат"""
-        self.result_textbox = ctk.CTkTextbox(self, width = 740, height = 260)
+        self.result_textbox = ctk.CTkTextbox(self, width = 740, height = 375, corner_radius = 10)
         self.result_textbox.place(x = 20, y = 140)
         self.result_textbox.insert("0.0", "Результат поиска появится здесь...")
         self.result_textbox.configure(state = "disabled")
 
         """Кнопка для переименования файлов"""
         self.search_btn = ctk.CTkButton(self, text = "Переименовать", command = self.on_rename_click, corner_radius = 10)
-        self.search_btn.place(x = 20, y = 420)
+        self.search_btn.place(x = 20, y = 530)
 
         """Чекбокс для отметок выбора"""
         self.custom_var = ctk.BooleanVar(value = False)
