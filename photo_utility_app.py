@@ -4,6 +4,7 @@ from views.welcome_view import create_welcome_frame
 from views.duplicate_view import DuplicateView
 from views.rename_view import RenameView
 from views.metadata_view import MetadataView
+from views.convert_view import ConvertView
 from utils import load_icons
 from utils import resource_path
 
@@ -11,20 +12,24 @@ class PhotoUtilityApp(ctk.CTk):
 
     def __init__(self):
         super().__init__()
-        """Иницилизация атрибутов класса (Frame)"""
+
+        """Инициализация атрибутов класса (Frame)"""
         self.top_frame = None
         self.lower_frame = None
         self.welcome_frame = None
         self.duplicate_frame = None
         self.rename_frame = None
         self.metadata_frame = None
-        """Иницилизация атрибутов класса (Button)"""
+        self.convert_frame = None
+
+        """Инициализация атрибутов класса (Button)"""
         self.duplicate_btn = None
         self.rename_btn = None
         self.metadata_btn = None
         self.convert_btn = None
         self.theme_btn = None
         self.return_btn = None
+
         """Настройка основного окна"""
         self.title("GUI v 0.3")
         self.geometry("800x700")
@@ -49,6 +54,8 @@ class PhotoUtilityApp(ctk.CTk):
         self.rename_frame = RenameView(self.lower_frame)
 
         self.metadata_frame = MetadataView(self.lower_frame)
+
+        self.convert_frame = ConvertView(self.lower_frame)
 
         self.show_welcome()
 
@@ -86,7 +93,8 @@ class PhotoUtilityApp(ctk.CTk):
             self.top_frame, text = "Конвертация\nФайла", cursor = "hand2",
             corner_radius = 10, image = self.icons["convert"],
             width = 50, height = 50, fg_color = "transparent",
-            hover_color = "gray", compound = "top"
+            hover_color = "gray", compound = "top",
+            command = self.show_convert
         )
         self.convert_btn.place(x = 287, y = 3)
 
@@ -152,7 +160,7 @@ class PhotoUtilityApp(ctk.CTk):
         self.duplicate_frame.place_forget()
         self.rename_frame.place_forget()
         self.metadata_frame.place_forget()
-        #self.convert_frame.place_forget()
+        self.convert_frame.place_forget()
 
     def show_welcome(self):
         """Показывает приветственный экран"""
@@ -170,5 +178,11 @@ class PhotoUtilityApp(ctk.CTk):
         self.rename_frame.place(x = 10, y = 10)
 
     def show_metadata(self):
+        """Показывает экран поиска метаданных файлов"""
         self.hide_all_frames()
         self.metadata_frame.place(x = 10, y = 10)
+
+    def show_convert(self):
+        """Показывает экран конвертации файлов"""
+        self.hide_all_frames()
+        self.convert_frame.place(x = 10, y = 10)
