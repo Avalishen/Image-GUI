@@ -55,4 +55,3 @@ def rename_files_with_hash(folder_path: str, prefix: str = "") -> dict:
         result[file] = new_name
 
     return result
-

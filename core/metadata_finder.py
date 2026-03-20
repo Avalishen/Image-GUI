@@ -1,5 +1,5 @@
 from PIL import Image
-from PIL.ExifTags import TAGS, GPSTAGS
+from PIL.ExifTags import TAGS
 
 
 def convert_to_degrees(value):
