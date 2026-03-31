@@ -23,19 +23,39 @@ def convert_image(input_path: str, output_format: str, quality: int = 95):
             output_ext = format_to_ext.get(output_format.upper(), "jpg")
             output_path = os.path.join(file_dir, f"{name}.{output_ext}")
 
-            if img.mode in ("RGBA", "LA", "P"):
-                background = Image.new("RGB", img.size, (255, 255, 255))
+            save_kwargs = {"format": output_format.upper()}
 
-                if img.mode == "P":
+            if output_format.upper() in ["JPEG", "JPG"]:
+                if img.mode in ("RGBA", "LA", "P"):
+                    background = Image.new("RGB", img.size, (255, 255, 255))
+                    if img.mode == "P":
+                        img = img.convert("RGBA")
+                    background.paste(img, mask = img.split()[-1])
+                    img = background
+                elif img.mode != "RGB":
+                    img = img.convert("RGB")
+
+                save_kwargs["quality"] = quality
+                save_kwargs["optimize"] = True
+
+            elif output_format.upper() == "PNG":
+                if img.mode not in ("RGB", "RGBA", "P", "L"):
                     img = img.convert("RGBA")
 
-                background.paste(img, mask = img.split()[-1])
-                img = background
+                save_kwargs["optimize"] = True
 
-            elif img.mode != "RGB":
-                img = img.convert("RGB")
+            elif output_format.upper() == "WEBP":
+                if img.mode not in ("RGB", "RGBA"):
+                    img = img.convert("RGBA")
 
-            img.save(output_path, output_format.upper(), quality = quality, optimize=True)
+                save_kwargs["quality"] = quality
+                save_kwargs["method"] = 6
+
+            elif output_format.upper() == "HEIC":
+                if img.mode not in ("RGB", "RGBA"):
+                    img = img.convert("RGB")
+
+            img.save(output_path, **save_kwargs)
 
             return {
                 "success": True,

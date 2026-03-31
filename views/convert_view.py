@@ -13,7 +13,7 @@ convert_images = ctk.CTkImage(
     size = (24, 20)
 )
 
-formats_in = ["jpg", "png", "gif", "bmp",]
+formats_in = ["jpeg", "png", "webp",]
 
 class ConvertView(ctk.CTkFrame):
 
@@ -81,14 +81,19 @@ class ConvertView(ctk.CTkFrame):
             self.result_textbox.configure(state = "disabled")
             return
 
-        file_dir = os.path.dirname(file_path)
-        file_name = os.path.basename(file_path)
-        name, ext = os.path.splitext(file_name)
+        output_format = self.combobox_to_format.get()
 
-        output_path = os.path.join(file_dir, f"{name}.jpg")
-        result = convert_image(file_path, output_path, quality = 90)
+        if output_format == "Выберите целевой формат":
+            self.result_textbox.configure(state = "normal")
+            self.result_textbox.delete("0.0", "end")
+            self.result_textbox.insert("0.0", "Выберите целевой формат!")
+            self.result_textbox.configure(state = "disabled")
+            return
+
         self.result_textbox.configure(state = "normal")
         self.result_textbox.delete("0.0", "end")
+
+        result = convert_image(file_path, output_format.upper(), quality = 90)
 
         if result.get("success"):
             output_text = "Конвертация Успешна!\n"
