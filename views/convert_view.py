@@ -5,9 +5,9 @@ from PIL import Image
 from placeholders import placeholder_text_3
 from utils import resource_path
 from tkinter import filedialog
-from core.convert_finder import convert_png_to_jpg
+from core.convert_finder import convert_image
 
-convert_image = ctk.CTkImage(
+convert_images = ctk.CTkImage(
     light_image = Image.open(resource_path("images/folder-dark.png")),
     dark_image = Image.open(resource_path("images/folder-light.png")),
     size = (24, 20)
@@ -25,7 +25,7 @@ class ConvertView(ctk.CTkFrame):
         self.source_entry.place(x = 20, y = 20)
 
         """Кнопка Обзор открывает меню для выбора папки"""
-        self.browse_source_btn = ctk.CTkButton(self, text = "Обзор...", image = convert_image, corner_radius = 10,
+        self.browse_source_btn = ctk.CTkButton(self, text = "Обзор...", image = convert_images, corner_radius = 10,
                                                fg_color = "transparent", hover_color = "gray", width = 80, command = self.choose_files)
         self.browse_source_btn.place(x = 270, y = 20)
 
@@ -86,7 +86,7 @@ class ConvertView(ctk.CTkFrame):
         name, ext = os.path.splitext(file_name)
 
         output_path = os.path.join(file_dir, f"{name}.jpg")
-        result = convert_png_to_jpg(file_path, output_path, quality = 90)
+        result = convert_image(file_path, output_path, quality = 90)
         self.result_textbox.configure(state = "normal")
         self.result_textbox.delete("0.0", "end")
 
