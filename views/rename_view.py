@@ -4,12 +4,19 @@ from tkinter import filedialog
 from PIL import Image
 from placeholders import placeholder_text_3, placeholder_text_4
 from core.rename_finder import rename_files_in_folder, rename_files_with_hash
+from info_dialog.info_dialog import show_info_dialog
 from utils import resource_path
 
 rename_image = ctk.CTkImage(
     light_image = Image.open(resource_path("images/folder-dark.png")),
     dark_image = Image.open(resource_path("images/folder-light.png")),
     size = (24, 20)
+)
+
+info_image = ctk.CTkImage(
+    light_image = Image.open(resource_path("images/info-dark.png")),
+    dark_image = Image.open(resource_path("images/info-light.png")),
+    size = (20, 20)
 )
 
 class RenameView(ctk.CTkFrame):
@@ -49,6 +56,11 @@ class RenameView(ctk.CTkFrame):
         self.hash_var = ctk.BooleanVar(value = False)
         self.hash_rename = ctk.CTkCheckBox(self, text = "Хэш Название", variable = self.hash_var, command = self.on_hash_rename, width = 240)
         self.hash_rename.place(x = 160, y = 100)
+
+        """Кнопка Информации"""
+        self.info_btn = ctk.CTkButton(self, text = "INFO", image = info_image, corner_radius = 10,
+                                      fg_color = "transparent", hover_color = "gray", width = 80, command = self.show_info)
+        self.info_btn.place(x = 675, y = 530)
 
     def choose_source(self):
         folder = filedialog.askdirectory()
@@ -119,3 +131,6 @@ class RenameView(ctk.CTkFrame):
 
         else:
             self.show_error("Выберите режим переименования!")
+
+    def show_info(self):
+        show_info_dialog(self, "rename")

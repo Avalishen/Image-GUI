@@ -5,12 +5,19 @@ from tkinter import filedialog
 from PIL import Image
 from placeholders import placeholder_text_1, placeholder_text_2
 from core.duplicate_finder import find_image_duplicates, move_duplicates_to_folder
+from info_dialog.info_dialog import show_info_dialog
 from utils import resource_path
 
 duplicate_image = ctk.CTkImage(
     light_image = Image.open(resource_path("images/folder-dark.png")),
     dark_image = Image.open(resource_path("images/folder-light.png")),
     size = (24, 20)
+)
+
+info_image = ctk.CTkImage(
+    light_image = Image.open(resource_path("images/info-dark.png")),
+    dark_image = Image.open(resource_path("images/info-light.png")),
+    size = (20, 20)
 )
 
 class DuplicateView(ctk.CTkFrame):
@@ -28,12 +35,12 @@ class DuplicateView(ctk.CTkFrame):
         self.dest_entry = ctk.CTkEntry(self, width = 240, placeholder_text = placeholder_text_2, corner_radius = 10)
         self.dest_entry.place(x = 20, y = 60)
 
-        """Кнопка Обзор открывает меню для выбра папки"""
+        """Кнопка Обзор открывает меню для выбора папки"""
         self.browse_source_btn = ctk.CTkButton(self, text = "Обзор...", image = duplicate_image, corner_radius = 10,
                                                fg_color="transparent", hover_color="gray", command = self.choose_source, width = 80)
         self.browse_source_btn.place(x = 270, y = 20)
 
-        """Кнопка Обзор открывает меню для выбра папки для дубликатво (Если такая папка уже есть)"""
+        """Кнопка Обзор открывает меню для выбора папки для дубликатов (Если такая папка уже есть)"""
         self.browse_dest_btn = ctk.CTkButton(self, text = "Обзор...", image = duplicate_image, corner_radius = 10,
                                              fg_color="transparent", hover_color="gray", command = self.choose_dest, width = 80)
         self.browse_dest_btn.place(x = 270, y = 60)
@@ -46,11 +53,16 @@ class DuplicateView(ctk.CTkFrame):
 
         """Кнопка для начала поиска дубликатов"""
         self.search_btn = ctk.CTkButton(self, text = "Найти дубликаты", corner_radius = 10, command = self.on_duplicate_search)
-        self.search_btn.place(x=20, y=530)
+        self.search_btn.place(x = 20, y = 530)
 
         """Кнопка для перемещения дубликатов"""
-        self.move_btn = ctk.CTkButton(self, text = "Переместить дубликаты", corner_radius = 10, command = self.on_duplicate_move, state="disabled")
-        self.move_btn.place(x=180, y=530)
+        self.move_btn = ctk.CTkButton(self, text = "Переместить дубликаты", corner_radius = 10, command = self.on_duplicate_move, state = "disabled")
+        self.move_btn.place(x = 180, y = 530)
+
+        """Кнопка Информации"""
+        self.info_btn = ctk.CTkButton(self, text = "INFO", image = info_image, corner_radius = 10,
+                                      fg_color = "transparent", hover_color = "gray", width = 80, command = self.show_info)
+        self.info_btn.place(x = 675, y = 530)
 
     def choose_source(self):
         folder = filedialog.askdirectory(title = "Папка с фото")
@@ -129,3 +141,6 @@ class DuplicateView(ctk.CTkFrame):
             self.result_textbox.delete("0.0", "end")
             self.result_textbox.insert("0.0", f"Ошибка: {e}")
             self.result_textbox.configure(state="disabled")
+
+    def show_info(self):
+        show_info_dialog(self, "duplicate")

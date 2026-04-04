@@ -1,16 +1,20 @@
 import customtkinter as ctk
-import os
 
 from PIL import Image
 from placeholders import placeholder_text_3
 from utils import resource_path
-from tkinter import filedialog
-from core.metadata_finder import get_all_metadata, remove_metadata
+from info_dialog.info_dialog import show_info_dialog
 
 quality_image = ctk.CTkImage(
     light_image = Image.open(resource_path("images/folder-dark.png")),
     dark_image = Image.open(resource_path("images/folder-light.png")),
     size = (24, 20)
+)
+
+info_image = ctk.CTkImage(
+    light_image = Image.open(resource_path("images/info-dark.png")),
+    dark_image = Image.open(resource_path("images/info-light.png")),
+    size = (20, 20)
 )
 
 class QualityView(ctk.CTkFrame):
@@ -32,7 +36,8 @@ class QualityView(ctk.CTkFrame):
         self.label_sharpness.place(x = 20, y = 60)
 
         """Слайдер (Резкость)"""
-        self.slider_sharpness = ctk.CTkSlider(self, from_ = 0, to = 200, width = 200, command = self.update_sharpness)
+        self.slider_sharpness = ctk.CTkSlider(self, from_ = 0, to = 200,
+                                              width = 200, command = self.update_sharpness)
         self.slider_sharpness.set(100)
         self.slider_sharpness.place(x = 130, y = 65)
 
@@ -45,7 +50,8 @@ class QualityView(ctk.CTkFrame):
         self.label_contrast.place(x = 20, y = 90)
 
         """Слайдер (Контраст)"""
-        self.slider_contrast = ctk.CTkSlider(self, from_ = 0, to = 200, width = 200, command = self.update_contrast)
+        self.slider_contrast = ctk.CTkSlider(self, from_ = 0, to = 200,
+                                             width = 200, command = self.update_contrast)
         self.slider_contrast.place(x = 130, y = 95)
 
         """Поле с процентами для слайдера (Контраст)"""
@@ -57,7 +63,8 @@ class QualityView(ctk.CTkFrame):
         self.label_brightness.place(x = 20, y = 120)
 
         """Слайдер (Яркость)"""
-        self.slider_brightness = ctk.CTkSlider(self, from_ = 0, to = 200, width = 200, command = self.update_brightness)
+        self.slider_brightness = ctk.CTkSlider(self, from_ = 0, to = 200,
+                                               width = 200, command = self.update_brightness)
         self.slider_brightness.place(x = 130, y = 125)
 
         """Поле с процентами для слайдера (Яркость)"""
@@ -69,7 +76,8 @@ class QualityView(ctk.CTkFrame):
         self.label_saturation.place(x = 20, y = 150)
 
         """Слайдер (Насыщенность)"""
-        self.slider_saturation = ctk.CTkSlider(self, from_ = 0, to = 200, width = 200, command = self.update_saturation)
+        self.slider_saturation = ctk.CTkSlider(self, from_ = 0, to = 200,
+                                               width = 200, command = self.update_saturation)
         self.slider_saturation.place(x = 130, y = 155)
 
         """Поле с процентами для слайдера (Насыщенность)"""
@@ -85,6 +93,11 @@ class QualityView(ctk.CTkFrame):
         """Кнопка для начала конвертации"""
         self.search_btn = ctk.CTkButton(self, text = "Конвертировать файл", corner_radius = 10)
         self.search_btn.place(x = 20, y = 530)
+
+        """Кнопка Информации"""
+        self.info_btn = ctk.CTkButton(self, text = "INFO", image = info_image, corner_radius = 10,
+                                      fg_color = "transparent", hover_color = "gray", width = 80, command = self.show_info)
+        self.info_btn.place(x = 675, y = 530)
 
     def update_sharpness(self, value):
         """Обновляет значение Резкости"""
@@ -105,3 +118,6 @@ class QualityView(ctk.CTkFrame):
         """Обновляет значение Насыщенности"""
         percent = int(float(value))
         self.label_percent_saturation.configure(text = f"Насыщенность: {percent}%")
+
+    def show_info(self):
+        show_info_dialog(self, "quality")

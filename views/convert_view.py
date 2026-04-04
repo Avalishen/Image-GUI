@@ -6,11 +6,18 @@ from placeholders import placeholder_text_3
 from utils import resource_path
 from tkinter import filedialog
 from core.convert_finder import convert_image
+from info_dialog.info_dialog import show_info_dialog
 
 convert_images = ctk.CTkImage(
     light_image = Image.open(resource_path("images/folder-dark.png")),
     dark_image = Image.open(resource_path("images/folder-light.png")),
     size = (24, 20)
+)
+
+info_image = ctk.CTkImage(
+    light_image = Image.open(resource_path("images/info-dark.png")),
+    dark_image = Image.open(resource_path("images/info-light.png")),
+    size = (20, 20)
 )
 
 formats_in = ["jpeg", "png", "webp", "heic", "gif"]
@@ -48,6 +55,11 @@ class ConvertView(ctk.CTkFrame):
         """Кнопка для начала конвертации"""
         self.search_btn = ctk.CTkButton(self, text = "Конвертировать файл", corner_radius = 10, command = self.convert)
         self.search_btn.place(x = 20, y = 530)
+
+        """Кнопка Информации"""
+        self.info_btn = ctk.CTkButton(self, text = "INFO", image = info_image, corner_radius = 10,
+                                      fg_color = "transparent", hover_color = "gray", width = 80, command = self.show_info)
+        self.info_btn.place(x = 675, y = 530)
 
 
     def choose_files(self):
@@ -111,3 +123,6 @@ class ConvertView(ctk.CTkFrame):
             self.result_textbox.insert("0.0", f"Ошибка: {result.get('error', 'Неизвестная ошибка')}")
 
         self.result_textbox.configure(state = "disabled")
+
+    def show_info(self):
+        show_info_dialog(self, "convert")

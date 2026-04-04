@@ -24,6 +24,7 @@ def load_icons():
         "folder": ("images/folder-dark.png", "images/folder-light.png", (20, 20)),
         "moon": ("images/moon-dark.png", "images/sun-light.png", (40, 40)),
         "sun": ("images/sun-dark.png", "images/moon-light.png", (40, 40)),
+        "info": ("images/info-dark.png", "images/info-light.png", (40, 40)),
     }
 
     icons = {}

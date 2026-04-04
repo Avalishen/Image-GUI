@@ -6,11 +6,18 @@ from placeholders import placeholder_text_3
 from utils import resource_path
 from tkinter import filedialog
 from core.metadata_finder import get_all_metadata, remove_metadata
+from info_dialog.info_dialog import show_info_dialog
 
 metadata_image = ctk.CTkImage(
     light_image = Image.open(resource_path("images/folder-dark.png")),
     dark_image = Image.open(resource_path("images/folder-light.png")),
     size = (24, 20)
+)
+
+info_image = ctk.CTkImage(
+    light_image = Image.open(resource_path("images/info-dark.png")),
+    dark_image = Image.open(resource_path("images/info-light.png")),
+    size = (20, 20)
 )
 
 class MetadataView(ctk.CTkFrame):
@@ -41,6 +48,11 @@ class MetadataView(ctk.CTkFrame):
         self.remove_metadata_btn = ctk.CTkButton(self, text = "Удалить Метаданные", corner_radius = 10,
                                        command = self.remove_all_metadata)
         self.remove_metadata_btn.place(x = 190, y = 530)
+
+        """Кнопка Информации"""
+        self.info_btn = ctk.CTkButton(self, text = "INFO", image = info_image, corner_radius = 10,
+                                      fg_color = "transparent", hover_color = "gray", width = 80, command = self.show_info)
+        self.info_btn.place(x = 675, y = 530)
 
 
     def choose_files(self):
@@ -157,4 +169,7 @@ class MetadataView(ctk.CTkFrame):
         self.result_textbox.delete("0.0", "end")
         self.result_textbox.insert("0.0", text)
         self.result_textbox.configure(state="disabled")
+
+    def show_info(self):
+        show_info_dialog(self, "metadata")
 
