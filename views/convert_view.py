@@ -13,7 +13,7 @@ convert_images = ctk.CTkImage(
     size = (24, 20)
 )
 
-formats_in = ["jpeg", "png", "webp",]
+formats_in = ["jpeg", "png", "webp", "heic", "gif"]
 
 class ConvertView(ctk.CTkFrame):
 
@@ -29,10 +29,12 @@ class ConvertView(ctk.CTkFrame):
                                                fg_color = "transparent", hover_color = "gray", width = 80, command = self.choose_files)
         self.browse_source_btn.place(x = 270, y = 20)
 
-        self.combobox_from_format = ctk.CTkComboBox(self, values = formats_in, width = 240, corner_radius = 10, state = "readonly")
-        self.combobox_from_format.set("Выберите исходный формат")
-        self.combobox_from_format.place(x = 20, y = 60)
+        """Метка для отображения исходного формата"""
+        self.source_format_label = ctk.CTkLabel(self, text = "Формат отобразиться тут", font = ("Roboto", 12),
+                                                fg_color = "transparent", justify = "left")
+        self.source_format_label.place(x = 20, y = 60)
 
+        """Комбобокс для выбора целевого формата"""
         self.combobox_to_format = ctk.CTkComboBox(self, values = formats_in, width = 240, corner_radius = 10, state = "readonly")
         self.combobox_to_format.set("Выберите целевой формат")
         self.combobox_to_format.place(x = 20, y = 100)
@@ -50,8 +52,8 @@ class ConvertView(ctk.CTkFrame):
 
     def choose_files(self):
         file_path = filedialog.askopenfilename(
-            title="Выберите изображение",
-            filetypes=[
+            title = "Выберите изображение",
+            filetypes = [
                 ("Изображения", "*.jpg *.jpeg *.png *.gif *.bmp *.tiff *.webp *.jfif"),
                 ("Все файлы", "*.*")
             ]
@@ -59,6 +61,11 @@ class ConvertView(ctk.CTkFrame):
         if file_path:
             self.source_entry.delete(0, "end")
             self.source_entry.insert(0, file_path)
+
+            _, ext = os.path.splitext(file_path)
+            format_name = ext.upper().lstrip(".")
+            self.source_format_label.configure(text = f"Исходный Формат: {format_name}\n"
+                                                      f"Выберите нужный формат ниже")
 
     def display_result(self, result):
         """Отображает результат в текстовом поле"""
@@ -72,7 +79,7 @@ class ConvertView(ctk.CTkFrame):
         self.result_textbox.configure(state = "disabled")
 
     def convert(self):
-
+        """Конвертация файла"""
         file_path = self.source_entry.get()
         if not file_path:
             self.result_textbox.configure(state = "normal")
@@ -104,4 +111,3 @@ class ConvertView(ctk.CTkFrame):
             self.result_textbox.insert("0.0", f"Ошибка: {result.get('error', 'Неизвестная ошибка')}")
 
         self.result_textbox.configure(state = "disabled")
-

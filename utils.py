@@ -6,7 +6,6 @@ import customtkinter as ctk
 def resource_path(relative_path):
     """Получает абсолютный путь к ресурсу для собранного приложения"""
     try:
-        # PyInstaller создаёт временную папку _MEIPASS
         base_path = sys._MEIPASS
     except Exception:
         base_path = os.path.abspath(".")
@@ -20,6 +19,7 @@ def load_icons():
         "rename": ("images/rename-dark.png", "images/rename-light.png", (40, 40)),
         "metadata": ("images/metadata-dark.png", "images/metadata-light.png", (40, 40)),
         "convert": ("images/convert-dark.png", "images/convert-light.png", (40, 40)),
+        "quality": ("images/quality-up-dark.png", "images/quality-up-light.png", (40, 40)),
         "undo": ("images/undo-dark.png", "images/undo-light.png", (40, 40)),
         "folder": ("images/folder-dark.png", "images/folder-light.png", (20, 20)),
         "moon": ("images/moon-dark.png", "images/sun-light.png", (40, 40)),
@@ -44,7 +44,7 @@ def load_icons():
                 print(f"⚠️ Иконка не найдена: {light_path} или {dark_path}")
                 icons[name] = None
             else:
-                icons[name] = ctk.CTkImage(light_image=light_img, dark_image=dark_img, size=size)
+                icons[name] = ctk.CTkImage(light_image = light_img, dark_image = dark_img, size = size)
 
         except Exception as e:
             print(f"❌ Ошибка загрузки иконки {name}: {e}")

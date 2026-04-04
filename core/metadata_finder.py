@@ -47,7 +47,6 @@ def get_all_metadata(image_path: str):
         if camera_info:
             result["camera"] = camera_info
 
-        # Настройки съёмки
         shooting_settings = {}
         if "FNumber" in exif_dict:
             shooting_settings["aperture"] = str(exif_dict["FNumber"])

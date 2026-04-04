@@ -5,6 +5,7 @@ from views.duplicate_view import DuplicateView
 from views.rename_view import RenameView
 from views.metadata_view import MetadataView
 from views.convert_view import ConvertView
+from views.quality_view import QualityView
 from utils import load_icons
 from utils import resource_path
 
@@ -21,12 +22,14 @@ class PhotoUtilityApp(ctk.CTk):
         self.rename_frame = None
         self.metadata_frame = None
         self.convert_frame = None
+        self.quality_frame = None
 
         """Инициализация атрибутов класса (Button)"""
         self.duplicate_btn = None
         self.rename_btn = None
         self.metadata_btn = None
         self.convert_btn = None
+        self.quality_btn = None
         self.theme_btn = None
         self.return_btn = None
 
@@ -56,6 +59,8 @@ class PhotoUtilityApp(ctk.CTk):
         self.metadata_frame = MetadataView(self.lower_frame)
 
         self.convert_frame = ConvertView(self.lower_frame)
+
+        self.quality_frame = QualityView(self.lower_frame)
 
         self.show_welcome()
 
@@ -98,6 +103,15 @@ class PhotoUtilityApp(ctk.CTk):
         )
         self.convert_btn.place(x = 287, y = 3)
 
+        self.quality_btn = ctk.CTkButton(
+            self.top_frame, text = "Повысить\nкачество", cursor = "hand2",
+            corner_radius = 10, image = self.icons["quality"],
+            width = 50, height = 50, fg_color = "transparent",
+            hover_color = "gray", compound = "top",
+            command = self.show_quality
+        )
+        self.quality_btn.place(x=392, y=3)
+
         self.theme_btn = ctk.CTkButton(
             self.top_frame, text = "Сменить\nТему", cursor = "hand2",
             corner_radius = 10, image = self.icons["moon"],
@@ -130,6 +144,7 @@ class PhotoUtilityApp(ctk.CTk):
             getattr(self, "rename_btn", None),
             getattr(self, "metadata_btn", None),
             getattr(self, "convert_btn", None),
+            getattr(self, "quality_btn", None),
             getattr(self, "theme_btn", None),
             getattr(self, "return_btn", None),
 
@@ -144,6 +159,8 @@ class PhotoUtilityApp(ctk.CTk):
             self.duplicate_frame.move_btn.configure(text_color = text_color)
             self.rename_frame.browse_source_btn.configure(text_color = text_color)
             self.rename_frame.search_btn.configure(text_color = text_color)
+            #self.quality_frame.browse_source_btn.configure(text_color = text_color)
+            #self.quality_frame.search_btn.configure(text_color = text_color)
 
     def reload_icons(self):
         """Смена иконок при смене темы экрана"""
@@ -161,6 +178,7 @@ class PhotoUtilityApp(ctk.CTk):
         self.rename_frame.place_forget()
         self.metadata_frame.place_forget()
         self.convert_frame.place_forget()
+        self.quality_frame.place_forget()
 
     def show_welcome(self):
         """Показывает приветственный экран"""
@@ -186,3 +204,8 @@ class PhotoUtilityApp(ctk.CTk):
         """Показывает экран конвертации файлов"""
         self.hide_all_frames()
         self.convert_frame.place(x = 10, y = 10)
+
+    def show_quality(self):
+        """Показывает экран повышения качества"""
+        self.hide_all_frames()
+        self.quality_frame.place(x = 10, y = 10)
