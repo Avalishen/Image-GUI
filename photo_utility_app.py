@@ -159,8 +159,8 @@ class PhotoUtilityApp(ctk.CTk):
             self.duplicate_frame.move_btn.configure(text_color = text_color)
             self.rename_frame.browse_source_btn.configure(text_color = text_color)
             self.rename_frame.search_btn.configure(text_color = text_color)
-            #self.quality_frame.browse_source_btn.configure(text_color = text_color)
-            #self.quality_frame.search_btn.configure(text_color = text_color)
+            self.quality_frame.browse_source_btn.configure(text_color = text_color)
+            self.quality_frame.search_btn.configure(text_color = text_color)
 
     def reload_icons(self):
         """Смена иконок при смене темы экрана"""
