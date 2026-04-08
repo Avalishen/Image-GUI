@@ -6,7 +6,7 @@ from placeholders import placeholder_text_3
 from utils import resource_path
 from tkinter import filedialog
 from core.convert_core import convert_image
-from utils.info_dialog import show_info_dialog
+from folder_utils.info_dialog import show_info_dialog
 
 convert_images = ctk.CTkImage(
     light_image = Image.open(resource_path("images/folder-dark.png")),

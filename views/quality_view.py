@@ -3,7 +3,7 @@ import customtkinter as ctk
 from PIL import Image
 from placeholders import placeholder_text_3
 from utils import resource_path
-from utils.info_dialog import show_info_dialog
+from folder_utils.info_dialog import show_info_dialog
 
 quality_image = ctk.CTkImage(
     light_image = Image.open(resource_path("images/folder-dark.png")),
