@@ -4,19 +4,28 @@ import imagehash
 from PIL import Image
 from collections import defaultdict
 
-def find_image_duplicates(folder_path: str) -> dict:
-    """Возвращает {хеш: [список_файлов]} — только дубликаты (группы из 2+ файлов)."""
+def find_image_duplicates(folder_path, progress_callback=None):
+
+    all_files = [f for f in os.listdir(folder_path) if os.path.isfile(os.path.join(folder_path, f))]
+    total_files = len(all_files)
+
     duplicates = defaultdict(list)
-    for filename in os.listdir(folder_path):
+
+    for i, filename in enumerate(all_files):
         file_path = os.path.join(folder_path, filename)
-        if not os.path.isfile(file_path):
-            continue
+
         try:
             with Image.open(file_path) as img:
                 img_hash = str(imagehash.phash(img))
                 duplicates[img_hash].append(file_path)
         except(IOError, SyntaxError, ValueError):
             continue
+
+        if progress_callback:
+            progress = (i + 1) / total_files * 100
+            status = f"Обработано {i + 1} из {total_files} файлов"
+            progress_callback(progress, status)
+
     duplicate_group = {h: files for h, files in duplicates.items() if len(files) > 1}
     return duplicate_group
 

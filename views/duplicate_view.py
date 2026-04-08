@@ -1,3 +1,5 @@
+import time
+
 import customtkinter as ctk
 import os
 
@@ -7,6 +9,7 @@ from placeholders import placeholder_text_1, placeholder_text_2
 from core.duplicate_core import find_image_duplicates, move_duplicates_to_folder
 from folder_utils.info_dialog import show_info_dialog
 from utils import resource_path
+from folder_utils.progress_dialog import show_progress_dialog, create_progress_window, hide_progress_dialog
 
 duplicate_image = ctk.CTkImage(
     light_image = Image.open(resource_path("images/folder-dark.png")),
@@ -86,7 +89,12 @@ class DuplicateView(ctk.CTkFrame):
             return
 
         try:
-            self.duplicate_results = find_image_duplicates(source_folder)
+            self.show_progress(0, "Начинаю поиск дубликатов...")
+            self.duplicate_results = find_image_duplicates(source_folder, progress_callback = self.update_progress)
+            self.show_progress(100, "Готово!")
+            time.sleep(0.5)
+            self.hide_progress()
+
             text = self.format_duplicates(self.duplicate_results)
 
             self.result_textbox.configure(state = "normal")
@@ -94,7 +102,7 @@ class DuplicateView(ctk.CTkFrame):
             self.result_textbox.insert("0.0", text)
             self.result_textbox.configure(state = "disabled")
 
-            self.move_btn.configure(state="normal")
+            self.move_btn.configure(state = "normal")
 
         except Exception as e:
             self.result_textbox.configure(state = "normal")
@@ -125,22 +133,52 @@ class DuplicateView(ctk.CTkFrame):
             return
 
         try:
-            os.makedirs(dest_folder, exist_ok=True)
+            os.makedirs(dest_folder, exist_ok = True)
             moved = move_duplicates_to_folder(self.duplicate_results, dest_folder)
 
-            self.result_textbox.configure(state="normal")
+            self.result_textbox.configure(state = "normal")
             self.result_textbox.delete("0.0", "end")
             self.result_textbox.insert("0.0", f"Перемещено {moved} файлов в:\n{dest_folder}")
-            self.result_textbox.configure(state="disabled")
+            self.result_textbox.configure(state = "disabled")
 
             self.duplicate_results = None
-            self.move_btn.configure(state="disabled")
+            self.move_btn.configure(state = "disabled")
 
         except Exception as e:
-            self.result_textbox.configure(state="normal")
+            self.result_textbox.configure(state = "normal")
             self.result_textbox.delete("0.0", "end")
             self.result_textbox.insert("0.0", f"Ошибка: {e}")
-            self.result_textbox.configure(state="disabled")
+            self.result_textbox.configure(state = "disabled")
 
     def show_info(self):
         show_info_dialog(self, "duplicate")
+
+    def update_progress(self, progress, status):
+        """Обновляет прогресс-бар"""
+        self.show_progress(progress, status)
+
+    def show_progress(self, progress, status):
+        show_progress_dialog(self, progress, status)
+
+    def show_result(self, result):
+        """Показывает результат"""
+
+        message = result.get("message", str(result))
+
+        self.result_textbox.configure(state = "normal")
+        self.result_textbox.delete("0.0", "end")
+        self.result_textbox.insert("0.0", message)
+        self.result_textbox.configure(state="disabled")
+
+    def show_error(self, result):
+        """Показывает ошибку"""
+        self.result_textbox.configure(state = "normal")
+        self.result_textbox.delete("0.0", "end")
+        self.result_textbox.insert("0.0", f"Ошибка: {result['message']}")
+        self.result_textbox.configure(state = "disabled")
+
+    def hide_progress(self):
+        """Скрывает прогресс-бар"""
+        if hasattr(self, "_progress_window"):
+            self._progress_window.destroy()
+            delattr(self, "_progress_window")
