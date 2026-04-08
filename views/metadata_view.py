@@ -5,7 +5,7 @@ from PIL import Image
 from placeholders import placeholder_text_3
 from utils import resource_path
 from tkinter import filedialog
-from core.metadata_finder import get_all_metadata, remove_metadata
+from core.metadata_core import get_all_metadata, remove_metadata
 from info_dialog.info_dialog import show_info_dialog
 
 metadata_image = ctk.CTkImage(

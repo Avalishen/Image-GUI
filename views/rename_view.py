@@ -3,7 +3,7 @@ import customtkinter as ctk
 from tkinter import filedialog
 from PIL import Image
 from placeholders import placeholder_text_3, placeholder_text_4
-from core.rename_finder import rename_files_in_folder, rename_files_with_hash
+from core.rename_core import rename_files_in_folder, rename_files_with_hash
 from info_dialog.info_dialog import show_info_dialog
 from utils import resource_path
 

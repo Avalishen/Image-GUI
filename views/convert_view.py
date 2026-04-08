@@ -5,7 +5,7 @@ from PIL import Image
 from placeholders import placeholder_text_3
 from utils import resource_path
 from tkinter import filedialog
-from core.convert_finder import convert_image
+from core.convert_core import convert_image
 from info_dialog.info_dialog import show_info_dialog
 
 convert_images = ctk.CTkImage(

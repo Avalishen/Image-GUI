@@ -4,7 +4,7 @@ import os
 from tkinter import filedialog
 from PIL import Image
 from placeholders import placeholder_text_1, placeholder_text_2
-from core.duplicate_finder import find_image_duplicates, move_duplicates_to_folder
+from core.duplicate_core import find_image_duplicates, move_duplicates_to_folder
 from info_dialog.info_dialog import show_info_dialog
 from utils import resource_path
 
