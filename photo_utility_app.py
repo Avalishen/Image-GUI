@@ -34,7 +34,7 @@ class PhotoUtilityApp(ctk.CTk):
         self.return_btn = None
 
         """Настройка основного окна"""
-        self.title("GUI v 0.3")
+        self.title("PhotoUtils v1.0")
         self.geometry("800x700")
         self.resizable(False, False)
         self.iconbitmap(resource_path("images/icon.ico"))
