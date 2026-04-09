@@ -2,7 +2,7 @@ import customtkinter as ctk
 import os
 
 from PIL import Image
-from placeholders import placeholder_text_3
+from placeholders import placeholder_text_1
 from utils import resource_path
 from tkinter import filedialog
 from core.metadata_core import get_all_metadata, remove_metadata
@@ -23,16 +23,16 @@ info_image = ctk.CTkImage(
 class MetadataView(ctk.CTkFrame):
 
     def __init__(self, parent):
-        super().__init__(parent, width = 780, height = 575, border_width = 1, corner_radius = 10, border_color = "gray", fg_color = "transparent")
+        super().__init__(parent, width = 780, height = 588, border_width = 1, corner_radius = 10, border_color = "gray", fg_color = "transparent")
 
         """Поле для ввода пути к папке с фото"""
-        self.source_entry = ctk.CTkEntry(self, width = 240, placeholder_text = placeholder_text_3, corner_radius = 10)
+        self.source_entry = ctk.CTkEntry(self, width = 240, placeholder_text = placeholder_text_1, corner_radius = 10)
         self.source_entry.place(x = 20, y = 20)
 
         """Кнопка Обзор открывает меню для выбора папки"""
-        self.browse_source_btn = ctk.CTkButton(self, text = "Обзор...", image = metadata_image, corner_radius = 10,
-                                               fg_color = "transparent", hover_color = "gray", command = self.choose_files ,width = 80)
-        self.browse_source_btn.place(x = 270, y = 20)
+        self.review_btn = ctk.CTkButton(self, text = "Обзор...", image = metadata_image, corner_radius = 10, width = 80,
+                                               fg_color = "transparent", hover_color = "gray", command = self.choose_files )
+        self.review_btn.place(x = 270, y = 20)
 
         """Поле в котором показывается результат"""
         self.result_textbox = ctk.CTkTextbox(self, width = 740, height = 450, corner_radius = 10)

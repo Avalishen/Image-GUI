@@ -2,7 +2,7 @@ import customtkinter as ctk
 import os
 
 from PIL import Image
-from placeholders import placeholder_text_3
+from placeholders import placeholder_text_1
 from utils import resource_path
 from tkinter import filedialog
 from core.convert_core import convert_image
@@ -25,16 +25,16 @@ formats_in = ["jpeg", "png", "webp", "heic", "gif"]
 class ConvertView(ctk.CTkFrame):
 
     def __init__(self, parent):
-        super().__init__(parent, width = 780, height = 575, border_width = 1, corner_radius = 10, border_color = "gray", fg_color = "transparent")
+        super().__init__(parent, width = 780, height = 588, border_width = 1, corner_radius = 10, border_color = "gray", fg_color = "transparent")
 
         """Поле для ввода пути к папке с фото"""
-        self.source_entry = ctk.CTkEntry(self, width = 240, placeholder_text = placeholder_text_3, corner_radius = 10)
+        self.source_entry = ctk.CTkEntry(self, width = 240, placeholder_text = placeholder_text_1, corner_radius = 10)
         self.source_entry.place(x = 20, y = 20)
 
         """Кнопка Обзор открывает меню для выбора папки"""
-        self.browse_source_btn = ctk.CTkButton(self, text = "Обзор...", image = convert_images, corner_radius = 10,
+        self.review_btn = ctk.CTkButton(self, text = "Обзор...", image = convert_images, corner_radius = 10,
                                                fg_color = "transparent", hover_color = "gray", width = 80, command = self.choose_files)
-        self.browse_source_btn.place(x = 270, y = 20)
+        self.review_btn.place(x = 270, y = 20)
 
         """Метка для отображения исходного формата"""
         self.source_format_label = ctk.CTkLabel(self, text = "Формат отобразиться тут", font = ("Roboto", 12),
@@ -47,14 +47,14 @@ class ConvertView(ctk.CTkFrame):
         self.combobox_to_format.place(x = 20, y = 100)
 
         """Поле в котором показывается результат"""
-        self.result_textbox = ctk.CTkTextbox(self, width = 740, height = 250, corner_radius = 10)
-        self.result_textbox.place(x = 20, y = 165)
+        self.result_textbox = ctk.CTkTextbox(self, width = 740, height = 370, corner_radius = 10)
+        self.result_textbox.place(x = 20, y = 145)
         self.result_textbox.insert("0.0", "Результат поиска появится здесь...")
         self.result_textbox.configure(state = "disabled")
 
         """Кнопка для начала конвертации"""
-        self.search_btn = ctk.CTkButton(self, text = "Конвертировать файл", corner_radius = 10, command = self.convert)
-        self.search_btn.place(x = 20, y = 530)
+        self.conversion_btn = ctk.CTkButton(self, text = "Конвертировать файл", corner_radius = 10, command = self.convert)
+        self.conversion_btn.place(x = 20, y = 530)
 
         """Кнопка Информации"""
         self.info_btn = ctk.CTkButton(self, text = "INFO", image = info_image, corner_radius = 10,

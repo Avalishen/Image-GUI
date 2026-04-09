@@ -26,7 +26,7 @@ info_image = ctk.CTkImage(
 class DuplicateView(ctk.CTkFrame):
 
     def __init__(self, parent):
-        super().__init__(parent, width = 780, height = 575, border_width = 1, corner_radius = 10, border_color = "gray", fg_color = "transparent")
+        super().__init__(parent, width = 780, height = 588, border_width = 1, corner_radius = 10, border_color = "gray", fg_color = "transparent")
 
         self.duplicate_results = None
 
@@ -39,14 +39,14 @@ class DuplicateView(ctk.CTkFrame):
         self.dest_entry.place(x = 20, y = 60)
 
         """Кнопка Обзор открывает меню для выбора папки"""
-        self.browse_source_btn = ctk.CTkButton(self, text = "Обзор...", image = duplicate_image, corner_radius = 10,
+        self.review_btn = ctk.CTkButton(self, text = "Обзор...", image = duplicate_image, corner_radius = 10,
                                                fg_color="transparent", hover_color="gray", command = self.choose_source, width = 80)
-        self.browse_source_btn.place(x = 270, y = 20)
+        self.review_btn.place(x = 270, y = 20)
 
         """Кнопка Обзор открывает меню для выбора папки для дубликатов (Если такая папка уже есть)"""
-        self.browse_dest_btn = ctk.CTkButton(self, text = "Обзор...", image = duplicate_image, corner_radius = 10,
+        self.review_duplicate_btn = ctk.CTkButton(self, text = "Обзор...", image = duplicate_image, corner_radius = 10,
                                              fg_color="transparent", hover_color="gray", command = self.choose_dest, width = 80)
-        self.browse_dest_btn.place(x = 270, y = 60)
+        self.review_duplicate_btn.place(x = 270, y = 60)
 
         """Поле в котором показывается результат"""
         self.result_textbox = ctk.CTkTextbox(self, width = 740, height = 415, corner_radius = 10)

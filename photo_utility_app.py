@@ -153,14 +153,29 @@ class PhotoUtilityApp(ctk.CTk):
                 btn.configure(text_color = text_color)
 
         if hasattr(self, "duplicate_frame"):
-            self.duplicate_frame.browse_source_btn.configure(text_color = text_color)
-            self.duplicate_frame.browse_dest_btn.configure(text_color = text_color)
+            """Поиск Дубликатов"""
+            self.duplicate_frame.review_btn.configure(text_color = text_color)
+            self.duplicate_frame.review_duplicate_btn.configure(text_color = text_color)
             self.duplicate_frame.search_btn.configure(text_color = text_color)
             self.duplicate_frame.move_btn.configure(text_color = text_color)
-            self.rename_frame.browse_source_btn.configure(text_color = text_color)
+            self.duplicate_frame.info_btn.configure(text_color = text_color)
+            """Переименование"""
+            self.rename_frame.review_btn.configure(text_color = text_color)
             self.rename_frame.search_btn.configure(text_color = text_color)
-            self.quality_frame.browse_source_btn.configure(text_color = text_color)
-            self.quality_frame.search_btn.configure(text_color = text_color)
+            self.rename_frame.info_btn.configure(text_color = text_color)
+            """Поиск Метаданных"""
+            self.metadata_frame.review_btn.configure(text_color = text_color)
+            self.metadata_frame.search_btn.configure(text_color = text_color)
+            self.metadata_frame.remove_metadata_btn.configure(text_color = text_color)
+            self.metadata_frame.info_btn.configure(text_color = text_color)
+            """Конвертация Файлов"""
+            self.convert_frame.review_btn.configure(text_color = text_color)
+            self.convert_frame.conversion_btn.configure(text_color = text_color)
+            self.convert_frame.info_btn.configure(text_color = text_color)
+            """Повышение Качества"""
+            self.quality_frame.review_btn.configure(text_color = text_color)
+            self.quality_frame.quality_btn.configure(text_color=text_color)
+            self.quality_frame.info_btn.configure(text_color = text_color)
 
     def reload_icons(self):
         """Смена иконок при смене темы экрана"""
