@@ -1,89 +1,61 @@
 import os
+import cv2
+import numpy as np
+from PIL import Image
 
-from PIL import Image, ImageEnhance
-from Tools.scripts.fixnotice import process
 
-
-def enhance_image_quality(
+def advanced_enhance_image(
         input_path: str,
         output_path: str,
-        sharpness: float = 1.0,
-        contrast: float = 1.0,
-        brightness: float = 1.0,
-        saturation: float = 1.0
+        clahe_clip_limit: float = 1.5,
+        clahe_tile_size: int = 16,
+        denoise_strength: int = 5
 ) -> dict:
     try:
         if not os.path.exists(input_path):
-            return{
+            return {
                 "success": False,
                 "error": "Исходный файл не найден"
             }
 
-        with Image.open(input_path) as img:
-            processed_img = img.copy()
+        pil_img = Image.open(input_path)
+        if pil_img.mode != 'RGB':
+            pil_img = pil_img.convert('RGB')
 
-            """Резкость"""
-            if sharpness != 1.0:
-                enhancer = ImageEnhance.Sharpness(processed_img)
-                processed_img = enhancer.enhance(sharpness)
+        opencv_img = np.array(pil_img)
+        img = cv2.cvtColor(opencv_img, cv2.COLOR_RGB2BGR)
 
-            """Контраст"""
-            if contrast != 1.0:
-                enhancer = ImageEnhance.Contrast(processed_img)
-                processed_img = enhancer.enhance(contrast)
+        if denoise_strength > 0:
+            d = min(21, max(1, denoise_strength))
+            sigma = denoise_strength * 10
+            denoised = cv2.bilateralFilter(img, d=d, sigmaColor=sigma, sigmaSpace=sigma)
+        else:
+            denoised = img
 
-            """Яркость"""
-            if brightness != 1.0:
-                enhancer = ImageEnhance.Brightness(processed_img)
-                processed_img = enhancer.enhance(brightness)
+        lab = cv2.cvtColor(denoised, cv2.COLOR_BGR2LAB)
+        l_channel, a_channel, b_channel = cv2.split(lab)
 
-            """Насыщенность"""
-            if saturation != 1.0:
-                enhancer = ImageEnhance.Sharpness(processed_img)
-                processed_img = enhancer.enhance(saturation)
+        tile_size = max(2, min(64, clahe_tile_size))
+        clahe = cv2.createCLAHE(clipLimit=clahe_clip_limit, tileGridSize=(tile_size, tile_size))
+        l_clahe = clahe.apply(l_channel)
 
-            final_img = processed_img
+        lab_clahe = cv2.merge([l_clahe, a_channel, b_channel])
+        enhanced = cv2.cvtColor(lab_clahe, cv2.COLOR_LAB2BGR)
 
-            if output_path.lower().endswith(('.jpg', '.jpeg')):
-                if processed_img.mode == "RGBA":
-                    background = Image.new("RGB", processed_img.size, (255, 255, 255))
-                    background.paste(processed_img, mask=processed_img.split()[-1])
-                    final_img = background
-                elif processed_img.mode == "LA":
-                    background = Image.new("L", processed_img.size, 255)
-                    background.paste(processed_img, mask=processed_img.split()[-1])
-                    final_img = background
-                elif processed_img.mode == "P":
-                    rgba_img = processed_img.convert("RGBA")
-                    background = Image.new("RGB", rgba_img.size, (255, 255, 255))
-                    background.paste(rgba_img, mask=rgba_img.split()[-1])
-                    final_img = background
-                elif processed_img.mode not in ("RGB", "L"):
-                    final_img = processed_img.convert("RGB")
-
-            save_kwargs = {}
-            if output_path.lower().endswith(('.jpg', '.jpeg')):
-                save_kwargs["quality"] = 95
-                save_kwargs["optimize"] = True
-            elif output_path.lower().endswith('.webp'):
-                save_kwargs["quality"] = 95
-                save_kwargs["method"] = 6
-
-            final_img.save(output_path, **save_kwargs)
+        enhanced_rgb = cv2.cvtColor(enhanced, cv2.COLOR_BGR2RGB)
+        pil_result = Image.fromarray(enhanced_rgb)
+        pil_result.save(output_path, quality=95, optimize=True)
 
         return {
             "success": True,
-            "message": "Качество изображения успешно улучшено",
+            "message": "Продвинутое улучшение успешно",
             "output_path": output_path,
             "original_size": os.path.getsize(input_path),
             "new_size": os.path.getsize(output_path)
         }
 
-    except FileNotFoundError:
-        return {"success": False, "error": "Файл не найде"}
-
-    except PermissionError:
-        return {"success": False, "error": "Нет прав на запись файла"}
+    except ImportError:
+        return {"success": False, "error": "Требуется установка opencv-python"}
 
     except Exception as e:
         return {"success": False, "error": f"Ошибка обработки: {str(e)}"}
