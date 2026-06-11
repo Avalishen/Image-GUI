@@ -28,7 +28,7 @@ def advanced_enhance_image(
         if denoise_strength > 0:
             d = min(21, max(1, denoise_strength))
             sigma = denoise_strength * 10
-            denoised = cv2.bilateralFilter(img, d=d, sigmaColor=sigma, sigmaSpace=sigma)
+            denoised = cv2.bilateralFilter(img, d = d, sigmaColor = sigma, sigmaSpace = sigma)
         else:
             denoised = img
 
@@ -36,7 +36,7 @@ def advanced_enhance_image(
         l_channel, a_channel, b_channel = cv2.split(lab)
 
         tile_size = max(2, min(64, clahe_tile_size))
-        clahe = cv2.createCLAHE(clipLimit=clahe_clip_limit, tileGridSize=(tile_size, tile_size))
+        clahe = cv2.createCLAHE(clipLimit = clahe_clip_limit, tileGridSize = (tile_size, tile_size))
         l_clahe = clahe.apply(l_channel)
 
         lab_clahe = cv2.merge([l_clahe, a_channel, b_channel])

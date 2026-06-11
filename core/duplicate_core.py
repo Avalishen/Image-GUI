@@ -34,7 +34,7 @@ def move_duplicates_to_folder(duplicate_groups: dict, target_folder: str) -> int
     os.makedirs(target_folder, exist_ok=True)
     moved = 0
     for files in duplicate_groups.values():
-        for file_path in files[1:]:  # пропускаем оригинал (первый файл)
+        for file_path in files[1:]:
             try:
                 filename = os.path.basename(file_path)
                 new_path = os.path.join(target_folder, filename)
@@ -47,4 +47,5 @@ def move_duplicates_to_folder(duplicate_groups: dict, target_folder: str) -> int
                 moved += 1
             except OSError:
                 continue
+
     return moved
