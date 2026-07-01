@@ -44,10 +44,12 @@ class PhotoUtilityApp(ctk.CTk):
 
     def setup_ui(self):
 
-        self.top_frame = ctk.CTkFrame(self, width = 800, height = 93, corner_radius = 10, border_width = 1, border_color = "gray", fg_color = "transparent")
+        self.top_frame = ctk.CTkFrame(self, width = 800, height = 93, corner_radius = 10,
+                                      border_width = 1, border_color = "gray", fg_color = "transparent")
         self.top_frame.place(x = 0, y = 0)
 
-        self.lower_frame = ctk.CTkFrame(self, width = 800, height = 608, corner_radius = 10, border_width = 1, border_color = "gray", fg_color = "transparent")
+        self.lower_frame = ctk.CTkFrame(self, width = 800, height = 608, corner_radius = 10,
+                                        border_width = 1, border_color = "gray", fg_color = "transparent")
         self.lower_frame.place(x = 0, y = 92)
 
         self.welcome_frame = create_welcome_frame(self.lower_frame)
